@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Translation App</title>
+    <title>English to Chinese Translator</title>
     <link rel="stylesheet" href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css">
     <style>
         body {
@@ -13,30 +13,20 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="mb-4">Translation App</h1>
+        <h1 class="mb-4">English to Chinese Translator</h1>
         <div class="row">
             <div class="col-md-6">
                 <form id="translationForm">
                     <div class="mb-3">
-                        <label for="inputText" class="form-label">Enter text to translate:</label>
+                        <label for="inputText" class="form-label">Enter English text to translate:</label>
                         <textarea class="form-control" id="inputText" rows="5" required></textarea>
                     </div>
-                    <div class="mb-3">
-                        <label for="targetLanguage" class="form-label">Select target language:</label>
-                        <select class="form-select" id="targetLanguage" required>
-                            <option value="es">Spanish</option>
-                            <option value="fr">French</option>
-                            <option value="de">German</option>
-                            <option value="it">Italian</option>
-                            <option value="pt">Portuguese</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Translate</button>
+                    <button type="submit" class="btn btn-primary">Translate to Chinese</button>
                 </form>
             </div>
             <div class="col-md-6">
                 <div class="mb-3">
-                    <label for="outputText" class="form-label">Translated text:</label>
+                    <label for="outputText" class="form-label">Chinese translation:</label>
                     <textarea class="form-control" id="outputText" rows="5" readonly></textarea>
                 </div>
             </div>
