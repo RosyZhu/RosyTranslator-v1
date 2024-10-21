@@ -47,6 +47,10 @@ args = "DNS and API Check"
 task = "workflow.run"
 args = "Check Volcano API Status"
 
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Check GitHub Pages"
+
 [[workflows.workflow]]
 name = "Start Flask Server"
 author = "agent"
@@ -146,6 +150,17 @@ agentRequireRestartOnSave = false
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "python check_volcano_api.py"
+
+[[workflows.workflow]]
+name = "Check GitHub Pages"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "curl -I -L https://rosyzhu.github.io/RosyTranslator-v1/ && curl -L https://rosyzhu.github.io/RosyTranslator-v1/"
 
 [deployment]
 run = ["sh", "-c", "python main.py"]
