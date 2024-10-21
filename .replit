@@ -15,6 +15,38 @@ author = "agent"
 task = "workflow.run"
 args = "Start Flask Server"
 
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "DNS Lookup"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Ping Test"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "HTTPS Test"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Volcano API Test"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "API Connectivity Test"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Check Volcano API URL"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "DNS and API Check"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Check Volcano API Status"
+
 [[workflows.workflow]]
 name = "Start Flask Server"
 author = "agent"
@@ -26,6 +58,94 @@ agentRequireRestartOnSave = false
 task = "shell.exec"
 args = "python main.py"
 waitForPort = 5000
+
+[[workflows.workflow]]
+name = "DNS Lookup"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python dns_lookup.py"
+
+[[workflows.workflow]]
+name = "Ping Test"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "ping -c 4 google.com"
+
+[[workflows.workflow]]
+name = "HTTPS Test"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python3 -c \"import requests; response = requests.get('https://www.google.com'); print(f'Status code: {response.status_code}')\""
+
+[[workflows.workflow]]
+name = "Volcano API Test"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python test_volcano_api.py"
+
+[[workflows.workflow]]
+name = "API Connectivity Test"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "curl -I https://api.github.com && echo '---' && curl -I https://api.volcanoapi.com/v1/translate"
+
+[[workflows.workflow]]
+name = "Check Volcano API URL"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo $VOLCANO_API_URL"
+
+[[workflows.workflow]]
+name = "DNS and API Check"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python dns_lookup.py"
+
+[[workflows.workflow]]
+name = "Check Volcano API Status"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python check_volcano_api.py"
 
 [deployment]
 run = ["sh", "-c", "python main.py"]
