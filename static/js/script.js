@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('translationForm');
     const inputText = document.getElementById('inputText');
-    const targetLanguage = document.getElementById('targetLanguage');
     const outputText = document.getElementById('outputText');
 
     form.addEventListener('submit', function(e) {
@@ -18,8 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: new URLSearchParams({
-                'text': inputText.value,
-                'target_language': targetLanguage.value
+                'text': inputText.value
             })
         })
         .then(response => response.json())
