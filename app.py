@@ -37,26 +37,18 @@ def translate():
     text = request.form.get('text')
 
     if not text:
-        return jsonify({"error": "Please provide text to translate"}), 400
+        return jsonify({"error": "Please enter text to translate"}), 400
 
     if not VOLCANO_API_KEY or not VOLCANO_API_SECRET:
         logging.error("VOLCANO_API_KEY or VOLCANO_API_SECRET is not set in the environment variables")
         return jsonify({"error": "Translation service is not configured properly"}), 500
 
     try:
-        body = {
-            'SourceLanguage': 'en',
-            'TargetLanguage': 'zh',
-            'TextList': [text]
-        }
+        body = {'TargetLanguage': 'zh', 'TextList': [text]}
         res = service.json('translate', {}, json.dumps(body))
         translation = json.loads(res)['TranslationList'][0]['Translation']
-        
-        # Generate a simple example sentence (this is a placeholder, you might want to use a more sophisticated method)
-        example_sentence = f"For example: '{text}' can be used in the sentence 'I like {text}'."
-        
-        logging.info(f"Successfully translated text from English to Chinese: '{text}' to '{translation}'")
-        return jsonify({"translation": translation, "example_sentence": example_sentence})
+        logging.info(f"Successfully translated text: '{text}' to '{translation}'")
+        return jsonify({"translation": translation})
     except Exception as e:
         logging.error(f"Translation API error: {str(e)}")
         return jsonify({"error": "An error occurred during translation. Please try again later."}), 500

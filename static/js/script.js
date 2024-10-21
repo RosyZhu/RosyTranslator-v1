@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         
         if (!inputText.value.trim()) {
-            alert('Please enter English words to translate');
+            alert('Please enter text to translate');
             return;
         }
 
@@ -25,10 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.error) {
                 throw new Error(data.error);
             }
-            outputText.innerHTML = `
-                <p><strong>Chinese Translation:</strong> ${data.translation}</p>
-                <p><strong>Example Sentence:</strong> ${data.example_sentence}</p>
-            `;
+            outputText.value = data.translation;
         })
         .catch(error => {
             console.error('Error:', error);
