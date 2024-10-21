@@ -10,11 +10,12 @@ VOLCANO_API_KEY = os.environ.get("VOLCANO_API_KEY")
 
 @app.route('/')
 def index():
-    return render_template('translator.html')
+    return render_template('index.html')
 
 @app.route('/translate', methods=['POST'])
 def translate():
     text = request.form.get('text')
+    target_language = request.form.get('target_language', 'zh')
 
     if not text:
         return jsonify({"error": "Please enter text to translate"}), 400
@@ -29,7 +30,7 @@ def translate():
             json={
                 "text": text,
                 "source_language": "en",
-                "target_language": "zh"
+                "target_language": target_language
             }
         )
         response.raise_for_status()
