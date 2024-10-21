@@ -12,6 +12,12 @@ logging.basicConfig(level=logging.INFO)
 VOLCANO_API_URL = "https://api.volcanoapi.com/v1/translate"
 VOLCANO_API_KEY = os.environ.get("VOLCANO_API_KEY")
 
+# Check if VOLCANO_API_KEY is set
+if not VOLCANO_API_KEY:
+    logging.error("VOLCANO_API_KEY is not set in the environment variables")
+else:
+    logging.info("VOLCANO_API_KEY is properly set")
+
 @app.route('/')
 def index():
     return render_template('index.html')
