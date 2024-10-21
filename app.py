@@ -1,7 +1,11 @@
 import os
 import logging
+import json
 from flask import Flask, render_template, request, jsonify
-from volcengine.maas import MaasService, MaasException
+from volcengine.ApiInfo import ApiInfo
+from volcengine.Credentials import Credentials
+from volcengine.ServiceInfo import ServiceInfo
+from volcengine.base.Service import Service
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("FLASK_SECRET_KEY") or "a secret key"
@@ -18,8 +22,11 @@ if not VOLCANO_API_KEY or not VOLCANO_API_SECRET:
 else:
     logging.info("VOLCANO_API_KEY and VOLCANO_API_SECRET are properly set")
 
-# Initialize MaasService
-maas_service = MaasService('maas-api.ml-platform-cn-beijing.volces.com', VOLCANO_API_KEY, VOLCANO_API_SECRET)
+# Set up the service info and API info
+k_service_info = ServiceInfo('translate.volcengineapi.com', {'Content-Type': 'application/json'}, Credentials(VOLCANO_API_KEY, VOLCANO_API_SECRET, 'translate', 'cn-north-1'), 5, 5)
+k_query = {'Action': 'TranslateText', 'Version': '2020-06-01'}
+k_api_info = {'translate': ApiInfo('POST', '/', k_query, {}, {})}
+service = Service(k_service_info, k_api_info)
 
 @app.route('/')
 def index():
@@ -37,18 +44,12 @@ def translate():
         return jsonify({"error": "Translation service is not configured properly"}), 500
 
     try:
-        response = maas_service.create_translation(
-            model='translation',
-            input_data={
-                "text": text,
-                "source_language": "en",
-                "target_language": "zh"
-            }
-        )
-        translation = response['result']['translation']
+        body = {'TargetLanguage': 'zh', 'TextList': [text]}
+        res = service.json('translate', {}, json.dumps(body))
+        translation = json.loads(res)['TranslationList'][0]['Translation']
         logging.info(f"Successfully translated text: '{text}' to '{translation}'")
         return jsonify({"translation": translation})
-    except MaasException as e:
+    except Exception as e:
         logging.error(f"Translation API error: {str(e)}")
         return jsonify({"error": "An error occurred during translation. Please try again later."}), 500
 
