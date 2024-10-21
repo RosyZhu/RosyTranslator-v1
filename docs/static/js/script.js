@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('translationForm');
     const inputText = document.getElementById('inputText');
     const outputText = document.getElementById('outputText');
+    const fullAppLink = document.getElementById('fullAppLink');
 
     form.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -11,18 +12,9 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // Simulate translation (for demo purposes only)
-        const simulateTranslation = (text) => {
-            // This is a very simple simulation and doesn't actually translate
-            return text.split('').reverse().join('') + ' (模拟翻译)';
-        };
-
-        try {
-            const translatedText = simulateTranslation(inputText.value);
-            outputText.value = translatedText;
-        } catch (error) {
-            console.error('Error:', error);
-            alert('An error occurred during translation simulation. Please try again.');
-        }
+        outputText.value = "This is a static demo. Translation functionality is not available here. Please visit the full application for actual translations.";
     });
+
+    // Set the full application link
+    fullAppLink.href = "https://rosy-translator.example.com";
 });
