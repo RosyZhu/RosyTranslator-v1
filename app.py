@@ -35,19 +35,25 @@ def index():
 @app.route('/translate', methods=['POST'])
 def translate():
     text = request.form.get('text')
+    source_language = request.form.get('source_language')
+    target_language = request.form.get('target_language')
 
-    if not text:
-        return jsonify({"error": "Please enter text to translate"}), 400
+    if not text or not source_language or not target_language:
+        return jsonify({"error": "Please provide text, source language, and target language"}), 400
 
     if not VOLCANO_API_KEY or not VOLCANO_API_SECRET:
         logging.error("VOLCANO_API_KEY or VOLCANO_API_SECRET is not set in the environment variables")
         return jsonify({"error": "Translation service is not configured properly"}), 500
 
     try:
-        body = {'TargetLanguage': 'zh', 'TextList': [text]}
+        body = {
+            'SourceLanguage': source_language,
+            'TargetLanguage': target_language,
+            'TextList': [text]
+        }
         res = service.json('translate', {}, json.dumps(body))
         translation = json.loads(res)['TranslationList'][0]['Translation']
-        logging.info(f"Successfully translated text: '{text}' to '{translation}'")
+        logging.info(f"Successfully translated text from {source_language} to {target_language}: '{text}' to '{translation}'")
         return jsonify({"translation": translation})
     except Exception as e:
         logging.error(f"Translation API error: {str(e)}")
