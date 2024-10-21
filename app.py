@@ -37,7 +37,7 @@ def translate():
         return jsonify({"error": "Translation service is not configured properly"}), 500
 
     try:
-        response = maas_service.sync_predict(
+        response = maas_service.create_translation(
             model='translation',
             input_data={
                 "text": text,
